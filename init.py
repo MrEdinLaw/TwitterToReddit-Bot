@@ -41,6 +41,6 @@ while True:
         else:
             reddit.subreddit(postTo).submit(title=newTweet.full_text, selftext="")
 
-        print(newTweet)
+        print(newTweet.full_text)
         lastTweet = newTweet.id
     sleep(11 * 60)
