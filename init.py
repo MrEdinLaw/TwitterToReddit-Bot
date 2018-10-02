@@ -32,8 +32,9 @@ while True:
     if newTweet.id != lastTweet:
 
         mediaUrl = 0
-        for media in newTweet.entities['media']:
-            mediaUrl = media['media_url']
+        if 'media' in newTweet.entities:
+            for media in newTweet.entities['media']:
+                mediaUrl = media['media_url']
 
         if mediaUrl != 0:
             reddit.subreddit(postTo).submit(title=newTweet.full_text, url=mediaUrl)
