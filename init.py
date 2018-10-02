@@ -5,8 +5,8 @@ import praw
 from config import config
 from keys import keys
 
-copyFrom = "" # Twitter profile to copy tweets from
-postTo = "" # Reddit subreddit to post to
+copyFrom = config['twitter_user']
+postTo = config['reddit_sub']
 
 # REST API connection
 reddit = praw.Reddit(client_id=keys['reddit_client_id'],
