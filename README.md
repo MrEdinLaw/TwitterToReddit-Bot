@@ -22,5 +22,9 @@ pip3 install praw
 for reddit API
 
 # Known bugs
+* Please open a issue if any appear
 
-* None for now please open a issue if any appear
+* Retweet text gets cut off.
+
+# ToDo
+* Create a way to add multiple twitter accounts
