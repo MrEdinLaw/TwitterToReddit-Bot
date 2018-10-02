@@ -7,6 +7,7 @@ from keys import keys
 
 copyFrom = config['twitter_user']
 postTo = config['reddit_sub']
+mentionRT = config['mention_rt']
 
 # REST API connection
 reddit = praw.Reddit(client_id=keys['reddit_client_id'],
@@ -40,7 +41,7 @@ while True:
             reddit.subreddit(postTo).submit(title=newTweet.full_text, url=mediaUrl)
         else:
             if newTweet.full_text.lower().startswith("rt @"): # Its a retweet
-                reddit.subreddit(postTo).submit(title=newTweet.retweeted_status.full_text, selftext="")
+                reddit.subreddit(postTo).submit(title=str(mentionRT) + newTweet.retweeted_status.full_text, selftext="")
             else:
                 reddit.subreddit(postTo).submit(title=newTweet.full_text, selftext="")
 
