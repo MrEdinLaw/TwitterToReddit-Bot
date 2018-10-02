@@ -39,7 +39,10 @@ while True:
         if mediaUrl != 0:
             reddit.subreddit(postTo).submit(title=newTweet.full_text, url=mediaUrl)
         else:
-            reddit.subreddit(postTo).submit(title=newTweet.full_text, selftext="")
+            if newTweet.full_text.lower().startswith("rt @"): # Its a retweet
+                reddit.subreddit(postTo).submit(title=newTweet.retweeted_status.full_text, selftext="")
+            else:
+                reddit.subreddit(postTo).submit(title=newTweet.full_text, selftext="")
 
         print(newTweet.full_text)
         lastTweet = newTweet.id
