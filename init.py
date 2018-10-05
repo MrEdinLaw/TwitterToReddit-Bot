@@ -37,14 +37,18 @@ while True:
             for media in newTweet.entities['media']:
                 mediaUrl = media['media_url']
 
-        if mediaUrl != 0:
-            reddit.subreddit(postTo).submit(title=newTweet.full_text, url=mediaUrl)
-        else:
-            if newTweet.full_text.lower().startswith("rt @"): # Its a retweet
-                reddit.subreddit(postTo).submit(title=str(mentionRT) + newTweet.retweeted_status.full_text, selftext="")
+        if len(newTweet.full_text) < 30:
+            if mediaUrl != 0:
+                reddit.subreddit(postTo).submit(title=newTweet.full_text, url=mediaUrl)
             else:
-                reddit.subreddit(postTo).submit(title=newTweet.full_text, selftext="")
+                if newTweet.full_text.lower().startswith("rt @"):  # Its a retweet
+                    reddit.subreddit(postTo).submit(title=str(mentionRT) + newTweet.retweeted_status.full_text,
+                                                    selftext="")
+                else:
+                    reddit.subreddit(postTo).submit(title=newTweet.full_text, selftext="")
 
-        print(newTweet.full_text)
-        lastTweet = newTweet.id
+            print(newTweet.full_text)
+            lastTweet = newTweet.id
+        else:
+            print("Tweet too long")
     sleep(11 * 60)
