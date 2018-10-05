@@ -24,7 +24,7 @@ for reddit API
 # Known bugs
 * Please open a issue if any appear
 
-* Retweet text gets cut off.
+* Retweet text gets cut off. - Fixed
 
 # ToDo
 * Create a way to add multiple twitter accounts
