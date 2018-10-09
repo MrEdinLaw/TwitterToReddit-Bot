@@ -33,3 +33,4 @@ for reddit API
 
 If you feel generous to support my work heres a paypal link:
 http://www.paypal.me/mredinlaw
+https://www.patreon.com/mredinlaw
