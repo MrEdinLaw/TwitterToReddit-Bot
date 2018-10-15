@@ -33,6 +33,8 @@ lastTweet = 0
 while True:
     newTweet = get_last_tweet(api)
     if newTweet.id != lastTweet:
+        lastTweet = newTweet.id
+
         if hasattr(newTweet, 'retweeted_status'):
             newTweet = newTweet.retweeted_status
             reTweet = True
@@ -76,6 +78,5 @@ while True:
             print("Error, please copy this and open a issue on the git page with this info:")
             print("Error Code: " + str(e))
 
-        print("Tweet: /t" + fullTweetText)
-        lastTweet = newTweet.id
+        print("Tweet: " + fullTweetText)
     sleep(11 * 60)
