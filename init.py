@@ -37,7 +37,7 @@ while True:
             for media in newTweet.entities['media']:
                 mediaUrl = media['media_url']
 
-        if len(newTweet.full_text) > 30:
+        if len(newTweet.full_text) + mentionRT < 30:
             if mediaUrl != 0:
                 reddit.subreddit(postTo).submit(title=newTweet.full_text, url=mediaUrl)
             else:
@@ -50,5 +50,5 @@ while True:
             print(newTweet.full_text)
             lastTweet = newTweet.id
         else:
-            print("Tweet too long")
+            print("Tweet too long.")
     sleep(11 * 60)
