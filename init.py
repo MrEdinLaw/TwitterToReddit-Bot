@@ -8,6 +8,8 @@ from keys import keys
 copyFrom = config['twitter_user']
 postTo = config['reddit_sub']
 mentionRT = config['mention_rt']
+mentionMI = config['mention_mi']
+mentionIm = config['mention_im']
 
 # REST API connection
 reddit = praw.Reddit(client_id=keys['reddit_client_id'],
@@ -31,24 +33,49 @@ lastTweet = 0
 while True:
     newTweet = get_last_tweet(api)
     if newTweet.id != lastTweet:
-
-        mediaUrl = 0
-        if 'media' in newTweet.entities:
-            for media in newTweet.entities['media']:
-                mediaUrl = media['media_url']
-
-        if len(newTweet.full_text) + mentionRT < 30:
-            if mediaUrl != 0:
-                reddit.subreddit(postTo).submit(title=newTweet.full_text, url=mediaUrl)
-            else:
-                if newTweet.full_text.lower().startswith("rt @"):  # Its a retweet
-                    reddit.subreddit(postTo).submit(title=str(mentionRT) + newTweet.retweeted_status.full_text,
-                                                    selftext="")
-                else:
-                    reddit.subreddit(postTo).submit(title=newTweet.full_text, selftext="")
-
-            print(newTweet.full_text)
-            lastTweet = newTweet.id
+        if hasattr(newTweet, 'retweeted_status'):
+            newTweet = newTweet.retweeted_status
+            reTweet = True
         else:
-            print("Tweet too long.")
+            reTweet = False
+
+        fullTweetText = newTweet.full_text
+
+        mediaUrl = []
+        if 'media' in newTweet.entities:
+            for media in newTweet.extended_entities['media']:
+                mediaUrl.append(media['media_url'])
+
+        try:
+            flair = ""
+            if len(mediaUrl) == 1:  # Just one media
+                post = reddit.subreddit(postTo).submit(title=fullTweetText, url=mediaUrl)
+                flair += mentionIm + " | "
+
+            elif len(mediaUrl) > 1:  # More than one media file
+                postText = ""
+                for item in mediaUrl:
+                    postText += item + "\n\n"
+                post = reddit.subreddit(postTo).submit(title=fullTweetText + mentionMI, selftext=postText)
+                flair += mentionMI + " | "
+
+            else:  # No media just the title
+                post = reddit.subreddit(postTo).submit(title=fullTweetText, selftext="")
+
+            if reTweet:
+                flair += mentionRT
+
+            if len(flair) != 0:
+                sleep(5)
+                if str(post.link_flair_text) != "None":
+                    post.mod.flair(str(post.link_flair_text) + " | " + str(flair))
+                else:
+                    post.mod.flair(str(flair))
+
+        except Exception as e:
+            print("Error, please copy this and open a issue on the git page with this info:")
+            print("Error Code: " + str(e))
+
+        print("Tweet: /t" + fullTweetText)
+        lastTweet = newTweet.id
     sleep(11 * 60)
