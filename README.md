@@ -28,9 +28,3 @@ for reddit API
 
 # ToDo
 * Create a way to add multiple twitter accounts
-
-# Support Me 
-
-If you feel generous to support my work heres a paypal link:
-http://www.paypal.me/mredinlaw
-https://www.patreon.com/mredinlaw
