@@ -2,21 +2,20 @@ import tweepy
 import requests
 
 auth = tweepy.OAuth1UserHandler(
-   "OUqSjaptCgthC4EBslVxsMgQC", "bb9wIiuE7SRU3JVfAJ1UUouKl4OoT5tthIFGoObXP8BZwkyVZJ", "1549518097119322113-ynR6rPCiHBtDQNqgsGC3wJBST82nUC", "gImLBJ6JlWOMojDat8ZOH8AWeB3hyMHMw9NY4qvzMSSbE"
+   "Consumer Key", "Consumer Secret Key", "Access Key", "Access Secret Key"
 )
 
 API = tweepy.API(auth)
 
-acc1 = "1500tasvir_en"
-accT = "AlexanderShad4"
+acc1 = "1500tasvir_en" # Iranian news twitter account
 
 # note that CLIENT_ID refers to 'personal use script' and SECRET_TOKEN to 'token'
-auth = requests.auth.HTTPBasicAuth('M6zCxP0NGuiuRcPqGBq2-g', 'W6BPhsbDTCTqlunPQSSUEUZf31ueKw')
+auth = requests.auth.HTTPBasicAuth('Personal use script', 'Secret Token')
 
 # here we pass our login method (password), username, and password
 data = {'grant_type': 'password',
-        'username': 'EyIranTwitter-Bot',
-        'password': 'dapice6765'}
+        'username': 'USERNAME',
+        'password': 'PASSWORD'}
 
     # setup our header info, which gives reddit a brief description of our app
 headers = {'User-Agent': 'EyIranTwitter-Bot/0.0.1'}
