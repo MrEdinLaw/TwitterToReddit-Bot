@@ -1,44 +1,29 @@
 import tweepy
-import requests
+import praw
+
+from keysnshit import twitterKeys
 
 auth = tweepy.OAuth1UserHandler(
-   "Consumer Key", "Consumer Secret Key", "Access Key", "Access Secret Key"
+   twitterKeys["ConsumerKey"], twitterKeys["ConsumerKeySecret"], twitterKeys["AccessKey"], twitterKeys["AccessKeySecret"]
 )
 
 API = tweepy.API(auth)
 
-acc1 = "1500tasvir_en" # Iranian news twitter account
+acc1 = "AlexanderShad4" # Example Twitter Account
 
-# note that CLIENT_ID refers to 'personal use script' and SECRET_TOKEN to 'token'
-auth = requests.auth.HTTPBasicAuth('Personal use script', 'Secret Token')
+latestTweet1 = API.user_timeline(screen_name=acc1, count=1)[0].text
 
-# here we pass our login method (password), username, and password
-data = {'grant_type': 'password',
-        'username': 'USERNAME',
-        'password': 'PASSWORD'}
+def eventSource1(latestTweet1):
+    if latestTweet1 != API.user_timeline(screen_name=acc1, count=1)[0].text:
 
-    # setup our header info, which gives reddit a brief description of our app
-headers = {'User-Agent': 'EyIranTwitter-Bot/0.0.1'}
+        # Trigger Reddit Post
+        print("New Tweet: " + API.user_timeline(screen_name=acc1, count=1)[0].text)
 
-    # send our request for an OAuth token
-res = requests.post('https://www.reddit.com/api/v1/access_token',
-                    auth=auth, data=data, headers=headers)
+        # Reset Loop
+        latestTweet1 = API.user_timeline(screen_name=acc1, count=1)[0].text
 
-    # convert response to JSON and pull access_token value
-TOKEN = res.json()['access_token']
+    return latestTweet1
 
-    # add authorization to our headers dictionary
-headers = {**headers, **{'Authorization': f"bearer {TOKEN}"}}
-
-print('New OAuth Redeemed')
-latestTweet1 = API.user_timeline(screen_name=accT,count=1)[0].text
-
+# Event Loop
 while True:
-    for tweet1 in API.user_timeline(screen_name=accT,count=1):
-        if latestTweet1 != tweet1.text:
-            print("New Tweet: " + tweet1.text)
-            latestTweet1 = tweet1.text
-
-            requests.post("https://oauth.reddit.com/api/submit", params={"title": tweet1.text, "sr": "r/doggomoggo"}, headers=headers)
-
-            # print(requests.get('https://oauth.reddit.com/api/v1/me', headers=headers))
+    latestTweet1 = eventSource1(latestTweet1)
