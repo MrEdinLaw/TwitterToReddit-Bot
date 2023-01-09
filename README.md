@@ -3,7 +3,7 @@ A bot that takes the last tweet of a user and posts it on reddit. Modules used a
 
 # How to use
 
-* Edit main.py and replace placeholders with Reddit and Twitter API keys
+* Edit keysnshit.py and replace placeholders with Reddit and Twitter API keys
 * Run the main.py file
 
 # How to install
