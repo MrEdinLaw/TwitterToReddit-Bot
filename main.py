@@ -1,13 +1,22 @@
 import tweepy
 import praw
 
-from keysnshit import twitterKeys
+from keysnshit import twitterKeys, redditKeys
 
 auth = tweepy.OAuth1UserHandler(
    twitterKeys["ConsumerKey"], twitterKeys["ConsumerKeySecret"], twitterKeys["AccessKey"], twitterKeys["AccessKeySecret"]
 )
 
 API = tweepy.API(auth)
+
+reddit = praw.Reddit(
+    client_id=redditKeys["PUS"],
+    client_secret=redditKeys["Secret"],
+    password=redditKeys["Password"],
+    username=redditKeys["Username"]
+)
+
+# print(reddit.user.me())
 
 acc1 = "AlexanderShad4" # Example Twitter Account
 
